@@ -1,10 +1,12 @@
 package com.techchallenge.appgestaodeeventos.entities;
 
+import com.techchallenge.appgestaodeeventos.dto.EnderecoDTO;
+import com.techchallenge.appgestaodeeventos.dto.UsuarioDTO;
 import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "usuario")
+@Table(name = "tb_usuario")
 public class Usuario {
 
     @Id
@@ -15,21 +17,26 @@ public class Usuario {
     private String email;
     private String cpf;
     private Date dataNascimento;
-    private String endereco;
-    private String numero;
-    private String bairro;
-    private String cidade;
-    private String uf;
-    private String cep;
     private String login;
     private String senha;
-    private boolean ativo;
+    private Boolean ativo;
 
-    public Usuario(Long idUsuario, String nome, String email, String cpf, String login, String senha) {
+
+    @Embedded
+    private Endereco endereco;
+
+    public Usuario(Long idUsuario, String nome, String email, String cpf, Date dataNascimento, String login, String senha, Endereco endereco) {
+        this.idUsuario = idUsuario;
+        this.nome = nome;
+        this.email = email;
+        this.cpf = cpf;
+        this.dataNascimento = dataNascimento;
+        this.login = login;
+        this.senha = senha;
+        this.endereco = endereco;
     }
 
     public Usuario() {
-
     }
 
     public Long getIdUsuario() {
@@ -80,54 +87,6 @@ public class Usuario {
         this.dataNascimento = dataNascimento;
     }
 
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-
-    public String getNumero() {
-        return numero;
-    }
-
-    public void setNumero(String numero) {
-        this.numero = numero;
-    }
-
-    public String getBairro() {
-        return bairro;
-    }
-
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
-    }
-
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
-
-    public String getUf() {
-        return uf;
-    }
-
-    public void setUf(String uf) {
-        this.uf = uf;
-    }
-
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
     public String getLogin() {
         return login;
     }
@@ -148,8 +107,16 @@ public class Usuario {
         return ativo;
     }
 
-    public void setAtivo(boolean ativo) {
+    public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 
 }

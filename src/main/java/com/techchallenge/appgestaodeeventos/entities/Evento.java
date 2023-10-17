@@ -22,18 +22,20 @@ public class Evento {
 
     private Boolean eventoAberto;
 
+    @Embedded
+    private Endereco endereco;
+
     public Evento() {
     }
 
-    public Evento(String descricao, Integer lotacao,
-                  LocalDateTime dataInicio, LocalDateTime dataTermino,
-                  Boolean eventoAberto) {
+    public Evento(String descricao, Integer lotacao, LocalDateTime dataInicio, LocalDateTime dataTermino, Boolean eventoAberto , Endereco endereco) {
         this.id = id;
         this.descricao = descricao;
         this.lotacao = lotacao;
         this.dataInicio = dataInicio;
         this.dataTermino = dataTermino;
         this.eventoAberto = eventoAberto;
+        this.endereco = endereco;
     }
 
     public Long getId() {
@@ -82,6 +84,14 @@ public class Evento {
 
     public void setEventoAberto(Boolean eventoAberto) {
         this.eventoAberto = eventoAberto;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 
     @Override

@@ -7,6 +7,8 @@ public record EventoDTO(
         Integer lotacao,
         LocalDateTime dataInicio,
         LocalDateTime dataTermino,
-        Boolean eventoAberto
+        Boolean eventoAberto,
+
+        EnderecoDTO enderecoDTO
 ) {
 }

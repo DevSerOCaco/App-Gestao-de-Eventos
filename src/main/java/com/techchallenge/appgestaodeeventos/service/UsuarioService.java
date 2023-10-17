@@ -1,7 +1,9 @@
 package com.techchallenge.appgestaodeeventos.service;
 
 import com.techchallenge.appgestaodeeventos.controller.exception.ControllerNotFoundException;
+import com.techchallenge.appgestaodeeventos.dto.EnderecoDTO;
 import com.techchallenge.appgestaodeeventos.dto.UsuarioDTO;
+import com.techchallenge.appgestaodeeventos.entities.Endereco;
 import com.techchallenge.appgestaodeeventos.entities.Usuario;
 import com.techchallenge.appgestaodeeventos.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -35,19 +37,24 @@ public class UsuarioService {
 
     public UsuarioDTO update(Long idUsuario, UsuarioDTO usuarioDTO) {
         try {
-            Usuario listaUsuario = repository.getReferenceById(idUsuario);
-            listaUsuario.setNome(usuarioDTO.nome());
-            listaUsuario.setEmail(usuarioDTO.email());
-            listaUsuario.setCpf(usuarioDTO.cpf());
-            listaUsuario.setDataNascimento(usuarioDTO.dataNascimento());
-            listaUsuario.setLogin(usuarioDTO.login());
-            listaUsuario.setSenha(usuarioDTO.senha());
-            listaUsuario = repository.save(listaUsuario);
-            return toUsuarioDTO(listaUsuario);
+            Usuario usuario = repository.findById(idUsuario)
+                    .orElseThrow(() -> new ControllerNotFoundException("Usuario com id:" + idUsuario + " não encontrado"));
+
+            usuario.setNome(usuarioDTO.nome());
+            usuario.setEmail(usuarioDTO.email());
+            usuario.setCpf(usuarioDTO.cpf());
+            usuario.setDataNascimento(usuarioDTO.dataNascimento());
+            usuario.setLogin(usuarioDTO.login());
+            usuario.setSenha(usuarioDTO.senha());
+            usuario.getEndereco().atualizarInformacoes(usuarioDTO.enderecoDTO());
+
+            usuario = repository.save(usuario);
+            return toUsuarioDTO(usuario);
         } catch (EntityNotFoundException e) {
-            throw new ControllerNotFoundException("Usuario com id:" + idUsuario + "não encontrado");
+            throw new ControllerNotFoundException("Usuario com id:" + idUsuario + " não encontrado");
         }
     }
+
 
     public void delete(Long idUsuario) { repository.deleteById(idUsuario); }
 
@@ -59,7 +66,16 @@ public class UsuarioService {
                 usuario.getCpf(),
                 usuario.getDataNascimento(),
                 usuario.getLogin(),
-                usuario.getSenha()
+                usuario.getSenha(),
+                new EnderecoDTO(
+                        usuario.getEndereco().getLogradouro(),
+                        usuario.getEndereco().getBairro(),
+                        usuario.getEndereco().getCep(),
+                        usuario.getEndereco().getCidade(),
+                        usuario.getEndereco().getUf(),
+                        usuario.getEndereco().getComplemento(),
+                        usuario.getEndereco().getNumero()
+                )
         );
     }
 
@@ -69,9 +85,20 @@ public class UsuarioService {
                 usuarioDTO.nome(),
                 usuarioDTO.email(),
                 usuarioDTO.cpf(),
+                usuarioDTO.dataNascimento(),
                 usuarioDTO.login(),
-                usuarioDTO.senha()
-        );
-    }
+                usuarioDTO.senha(),
+                new Endereco(
+                    usuarioDTO.enderecoDTO().logradouro(),
+                    usuarioDTO.enderecoDTO().bairro(),
+                    usuarioDTO.enderecoDTO().cep(),
+                    usuarioDTO.enderecoDTO().cidade(),
+                    usuarioDTO.enderecoDTO().uf(),
+                    usuarioDTO.enderecoDTO().complemento(),
+                    usuarioDTO.enderecoDTO().numero()
+            ));
+        }
+
+
 
 }

@@ -1,7 +1,9 @@
 package com.techchallenge.appgestaodeeventos.service;
 
 import com.techchallenge.appgestaodeeventos.controller.exception.ControllerNotFoundException;
+import com.techchallenge.appgestaodeeventos.dto.EnderecoDTO;
 import com.techchallenge.appgestaodeeventos.dto.EventoDTO;
+import com.techchallenge.appgestaodeeventos.entities.Endereco;
 import com.techchallenge.appgestaodeeventos.entities.Evento;
 import com.techchallenge.appgestaodeeventos.repository.EventoRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -41,6 +43,7 @@ public class EventoService {
             evento.setDataInicio(eventoDTO.dataInicio());
             evento.setDataTermino(eventoDTO.dataTermino());
             evento.setEventoAberto(eventoDTO.eventoAberto());
+            evento.getEndereco().atualizarInformacoes(eventoDTO.enderecoDTO());
 
             evento = eventoRepository.save(evento);
             return toDTO(evento);
@@ -53,11 +56,36 @@ public class EventoService {
         eventoRepository.deleteById(id);
     }
     private Evento toEntity(EventoDTO eventoDTO){
-        return new Evento(eventoDTO.descricao(), eventoDTO.lotacao(), eventoDTO.dataInicio(),
-                eventoDTO.dataTermino(),eventoDTO.eventoAberto());
+        return new Evento(eventoDTO.descricao(),
+                eventoDTO.lotacao(),
+                eventoDTO.dataInicio(),
+                eventoDTO.dataTermino(),
+                eventoDTO.eventoAberto(),
+                new Endereco(
+                        eventoDTO.enderecoDTO().logradouro(),
+                        eventoDTO.enderecoDTO().bairro(),
+                        eventoDTO.enderecoDTO().cep(),
+                        eventoDTO.enderecoDTO().cidade(),
+                        eventoDTO.enderecoDTO().uf(),
+                        eventoDTO.enderecoDTO().complemento(),
+                        eventoDTO.enderecoDTO().numero()
+                ));
     }
     private EventoDTO toDTO(Evento evento){
-        return new EventoDTO(evento.getDescricao(), evento.getLotacao(), evento.getDataInicio(),
-                evento.getDataTermino(), evento.getEventoAberto());
+        return new EventoDTO(
+                evento.getDescricao(),
+                evento.getLotacao(),
+                evento.getDataInicio(),
+                evento.getDataTermino(),
+                evento.getEventoAberto(),
+                new EnderecoDTO(
+                        evento.getEndereco().getLogradouro(),
+                        evento.getEndereco().getBairro(),
+                        evento.getEndereco().getCep(),
+                        evento.getEndereco().getCidade(),
+                        evento.getEndereco().getUf(),
+                        evento.getEndereco().getComplemento(),
+                        evento.getEndereco().getNumero()
+                ));
     }
 }

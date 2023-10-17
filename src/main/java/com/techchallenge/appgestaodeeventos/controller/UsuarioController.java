@@ -1,7 +1,9 @@
 package com.techchallenge.appgestaodeeventos.controller;
 
 import com.techchallenge.appgestaodeeventos.dto.UsuarioDTO;
+import com.techchallenge.appgestaodeeventos.entities.Usuario;
 import com.techchallenge.appgestaodeeventos.service.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +33,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioDTO> save(@RequestBody UsuarioDTO usuarioDTO) {
+    public ResponseEntity<UsuarioDTO> save(@RequestBody @Valid UsuarioDTO usuarioDTO) {
         usuarioDTO = usuarioService.save(usuarioDTO);
         return ResponseEntity.status(201).body(usuarioDTO);
     }

@@ -1,5 +1,7 @@
 package com.techchallenge.appgestaodeeventos.dto;
 
+import jakarta.validation.Valid;
+
 import java.util.Date;
 
 public record UsuarioDTO (
@@ -7,8 +9,8 @@ public record UsuarioDTO (
         String nome,
         String email,
         String cpf,
-
         Date dataNascimento,
         String login,
-        String senha
+        String senha,
+        EnderecoDTO enderecoDTO
 ){ }
