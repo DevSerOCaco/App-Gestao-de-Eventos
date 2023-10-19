@@ -1,7 +1,6 @@
 package com.techchallenge.appgestaodeeventos.controller;
 
 import com.techchallenge.appgestaodeeventos.dto.UsuarioDTO;
-import com.techchallenge.appgestaodeeventos.entities.Usuario;
 import com.techchallenge.appgestaodeeventos.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class UsuarioController {
 
     @Autowired
-    public UsuarioService usuarioService;
+    private UsuarioService usuarioService;
 
     @GetMapping
     public ResponseEntity<Page<UsuarioDTO>> findAll(@PageableDefault(size = 10, page = 0, sort= "idUsuario")
@@ -45,7 +44,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{idUsuario}")
-    public ResponseEntity<UsuarioDTO> delete(@RequestBody UsuarioDTO usuarioDTO, @PathVariable Long idUsuario) {
+    public ResponseEntity<UsuarioDTO> delete(@PathVariable Long idUsuario) {
         usuarioService.delete(idUsuario);
         return ResponseEntity.noContent().build();
     }

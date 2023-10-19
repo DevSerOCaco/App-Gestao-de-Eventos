@@ -7,13 +7,14 @@ import com.techchallenge.appgestaodeeventos.entities.Endereco;
 import com.techchallenge.appgestaodeeventos.entities.Usuario;
 import com.techchallenge.appgestaodeeventos.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-
 @Service
+@AllArgsConstructor
 public class UsuarioService {
 
     @Autowired
@@ -25,7 +26,7 @@ public class UsuarioService {
     }
 
     public UsuarioDTO findById(Long idUsuario) {
-        var usuario = repository.findById(idUsuario).orElseThrow(() -> new ControllerNotFoundException("Usuario com nao foi encontrado"));
+        Usuario usuario = repository.findById(idUsuario).orElseThrow(() -> new ControllerNotFoundException("Usuario não encontrado"));
         return toUsuarioDTO(usuario);
     }
 
