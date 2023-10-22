@@ -7,18 +7,20 @@ import com.techchallenge.appgestaodeeventos.entities.Endereco;
 import com.techchallenge.appgestaodeeventos.entities.Usuario;
 import com.techchallenge.appgestaodeeventos.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
 public class UsuarioService {
 
+    private final UsuarioRepository repository;
+
     @Autowired
-    private UsuarioRepository repository;
+    public UsuarioService(UsuarioRepository repository) {
+        this.repository = repository;
+    }
 
     public Page<UsuarioDTO> findAll(Pageable pageable) {
         Page<Usuario> usuarios = repository.findAll(pageable);
@@ -38,9 +40,7 @@ public class UsuarioService {
 
     public UsuarioDTO update(Long idUsuario, UsuarioDTO usuarioDTO) {
         try {
-            Usuario usuario = repository.findById(idUsuario)
-                    .orElseThrow(() -> new ControllerNotFoundException("Usuario com id:" + idUsuario + " não encontrado"));
-
+            Usuario usuario = repository.getReferenceById(idUsuario);
             usuario.setNome(usuarioDTO.nome());
             usuario.setEmail(usuarioDTO.email());
             usuario.setCpf(usuarioDTO.cpf());
@@ -48,8 +48,8 @@ public class UsuarioService {
             usuario.setLogin(usuarioDTO.login());
             usuario.setSenha(usuarioDTO.senha());
             usuario.getEndereco().atualizarInformacoes(usuarioDTO.enderecoDTO());
-
             usuario = repository.save(usuario);
+
             return toUsuarioDTO(usuario);
         } catch (EntityNotFoundException e) {
             throw new ControllerNotFoundException("Usuario com id:" + idUsuario + " não encontrado");
@@ -99,7 +99,5 @@ public class UsuarioService {
                     usuarioDTO.enderecoDTO().numero()
             ));
         }
-
-
 
 }

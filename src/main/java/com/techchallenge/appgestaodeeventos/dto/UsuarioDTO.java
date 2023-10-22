@@ -1,16 +1,22 @@
 package com.techchallenge.appgestaodeeventos.dto;
 
-import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.br.CPF;
 
-import java.util.Date;
+import java.time.LocalDate;
 
-public record UsuarioDTO (
+public record UsuarioDTO(
         Long idUsuario,
+        @NotBlank(message = "O nome não pode estar em branco.")
         String nome,
+        @Email(message = "E-mail inválido.")
         String email,
+        @CPF(message = "CPF inválido.")
         String cpf,
-        Date dataNascimento,
+        LocalDate dataNascimento,
         String login,
         String senha,
         EnderecoDTO enderecoDTO
-){ }
+) {
+}

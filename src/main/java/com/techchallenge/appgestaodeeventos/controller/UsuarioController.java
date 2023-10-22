@@ -7,16 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
+    private final UsuarioService usuarioService;
+
     @Autowired
-    private UsuarioService usuarioService;
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
 
     @GetMapping
     public ResponseEntity<Page<UsuarioDTO>> findAll(@PageableDefault(size = 10, page = 0, sort= "idUsuario")
@@ -32,19 +36,19 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioDTO> save(@RequestBody @Valid UsuarioDTO usuarioDTO) {
-        usuarioDTO = usuarioService.save(usuarioDTO);
-        return ResponseEntity.status(201).body(usuarioDTO);
+    public ResponseEntity<UsuarioDTO> save(@Valid @RequestBody UsuarioDTO usuarioDTO) {
+        UsuarioDTO savedUsuario = usuarioService.save(usuarioDTO);
+        return new ResponseEntity<>(savedUsuario, HttpStatus.CREATED);
     }
 
     @PutMapping("/{idUsuario}")
-    public ResponseEntity<UsuarioDTO> update(@RequestBody UsuarioDTO usuarioDTO, @PathVariable Long idUsuario) {
-        usuarioDTO = usuarioService.update(idUsuario, usuarioDTO);
-        return ResponseEntity.ok().body(usuarioDTO);
+    public ResponseEntity<UsuarioDTO> update(@PathVariable Long idUsuario, @RequestBody UsuarioDTO usuarioDTO) {
+        UsuarioDTO userUpdate = usuarioService.update(idUsuario, usuarioDTO);
+        return ResponseEntity.ok().body(userUpdate);
     }
 
     @DeleteMapping("/{idUsuario}")
-    public ResponseEntity<UsuarioDTO> delete(@PathVariable Long idUsuario) {
+    public ResponseEntity<Void> delete(@PathVariable Long idUsuario) {
         usuarioService.delete(idUsuario);
         return ResponseEntity.noContent().build();
     }

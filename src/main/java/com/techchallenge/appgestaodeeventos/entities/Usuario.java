@@ -1,13 +1,17 @@
 package com.techchallenge.appgestaodeeventos.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_usuario")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Usuario {
 
     @Id
@@ -17,7 +21,7 @@ public class Usuario {
     private String telefone;
     private String email;
     private String cpf;
-    private Date dataNascimento;
+    private LocalDate dataNascimento;
     private String login;
     private String senha;
     private Boolean ativo;
@@ -25,7 +29,7 @@ public class Usuario {
     @Embedded
     private Endereco endereco;
 
-    public Usuario(Long idUsuario, String nome, String email, String cpf, Date dataNascimento, String login, String senha, Endereco endereco) {
+    public Usuario(Long idUsuario, String nome, String email, String cpf, LocalDate dataNascimento, String login, String senha, Endereco endereco) {
         this.idUsuario = idUsuario;
         this.nome = nome;
         this.email = email;
@@ -36,6 +40,4 @@ public class Usuario {
         this.endereco = endereco;
     }
 
-    public Usuario() {
-    }
 }
