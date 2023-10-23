@@ -12,17 +12,17 @@ import java.time.Instant;
 
 @ControllerAdvice
 public class ControllerExceptionHandler {
-    private final StandardError error = new StandardError();
 
     @ExceptionHandler(ControllerNotFoundException.class)
     public ResponseEntity<StandardError> entityNotFound(ControllerNotFoundException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
+        StandardError error = new StandardError();
         error.setTimestamp(Instant.now());
         error.setStatus(status.value());
         error.setError("Entity not found");
         error.setMessage(e.getMessage());
         error.setPath(request.getRequestURI());
-        return ResponseEntity.status(status).body(this.error);
+        return ResponseEntity.status(status).body(error);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
