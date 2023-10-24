@@ -52,4 +52,5 @@ public class UsuarioController {
         usuarioService.delete(idUsuario);
         return ResponseEntity.noContent().build();
     }
+
 }

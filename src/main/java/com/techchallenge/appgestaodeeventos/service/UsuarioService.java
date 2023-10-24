@@ -57,7 +57,9 @@ public class UsuarioService {
     }
 
 
-    public void delete(Long idUsuario) { repository.deleteById(idUsuario); }
+    public void delete(Long idUsuario) {
+        repository.deleteById(idUsuario);
+    }
 
     private UsuarioDTO toUsuarioDTO(Usuario usuario) {
         return new UsuarioDTO(
@@ -90,14 +92,14 @@ public class UsuarioService {
                 usuarioDTO.login(),
                 usuarioDTO.senha(),
                 new Endereco(
-                    usuarioDTO.enderecoDTO().logradouro(),
-                    usuarioDTO.enderecoDTO().bairro(),
-                    usuarioDTO.enderecoDTO().cep(),
-                    usuarioDTO.enderecoDTO().cidade(),
-                    usuarioDTO.enderecoDTO().uf(),
-                    usuarioDTO.enderecoDTO().complemento(),
-                    usuarioDTO.enderecoDTO().numero()
-            ));
-        }
+                        usuarioDTO.enderecoDTO().logradouro(),
+                        usuarioDTO.enderecoDTO().bairro(),
+                        usuarioDTO.enderecoDTO().cep(),
+                        usuarioDTO.enderecoDTO().cidade(),
+                        usuarioDTO.enderecoDTO().uf(),
+                        usuarioDTO.enderecoDTO().complemento(),
+                        usuarioDTO.enderecoDTO().numero()
+                ));
+    }
 
 }

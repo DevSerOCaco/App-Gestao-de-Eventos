@@ -13,4 +13,5 @@ public class ValidateError extends StandardError {
     public void addMessages(String campo, String mensagem) {
         messages.add(new ValidateMessage(campo, mensagem));
     }
+
 }

@@ -10,9 +10,11 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StandardError {
+
     private Instant timestamp;
     private Integer status;
     private String error;
     private String message;
     private String path;
+
 }

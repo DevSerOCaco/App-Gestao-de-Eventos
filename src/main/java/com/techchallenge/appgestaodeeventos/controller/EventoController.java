@@ -2,6 +2,7 @@ package com.techchallenge.appgestaodeeventos.controller;
 
 import com.techchallenge.appgestaodeeventos.dto.EventoDTO;
 import com.techchallenge.appgestaodeeventos.service.EventoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,13 +32,13 @@ public class EventoController {
     }
 
     @PostMapping
-    public ResponseEntity<EventoDTO> save(@RequestBody EventoDTO eventoDTO){
+    public ResponseEntity<EventoDTO> save(@Valid @RequestBody EventoDTO eventoDTO){
         EventoDTO savedEvento = eventoService.save(eventoDTO);
         return new ResponseEntity<>(savedEvento, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EventoDTO> update(@PathVariable Long id, @RequestBody EventoDTO eventoDTO) {
+    public ResponseEntity<EventoDTO> update(@PathVariable Long id, @Valid @RequestBody EventoDTO eventoDTO) {
         EventoDTO updatedEvento = eventoService.update(id, eventoDTO);
         return ResponseEntity.ok(updatedEvento);
     }

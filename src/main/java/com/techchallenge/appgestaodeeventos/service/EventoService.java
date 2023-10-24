@@ -88,4 +88,5 @@ public class EventoService {
                         evento.getEndereco().getNumero()
                 ));
     }
+
 }
